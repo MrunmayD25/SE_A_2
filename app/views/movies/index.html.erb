@@ -1,16 +1,96 @@
-<p style="color: green"><%= notice %></p>
-
+<p class="message"><%= notice %></p>
 <% content_for :title, "Movies" %>
-
 <h1>Movies</h1>
 
 <div id="movies">
-  <% @movies.each do |movie| %>
-    <%= render movie %>
-    <p>
-      <%= link_to "Show this movie", movie %>
-    </p>
-  <% end %>
+<table>
+  <thead>
+    <tr>
+
+      <th class="<%= 'sorted-asc' if session[:sort_column] == 'title' && session[:sort_direction] == 'asc' %>
+                 <%= 'sorted-desc' if session[:sort_column] == 'title' && session[:sort_direction] == 'desc' %>">
+        <div class="dropdown">
+          <span class="dropbtn">
+            Title
+            <% if session[:sort_column] == 'title' %>
+              <% if session[:sort_direction] == 'asc' %>
+                &#9660; 
+              <% elsif session[:sort_direction] == 'desc' %>
+                &#9650;
+              <% end %>
+            <% end %>
+          </span>
+          <div class="dropdown-content">
+            <%= link_to 'Title Asc', movies_path(sort_column: 'title', sort_direction: 'asc') %>
+            <%= link_to 'Title Desc', movies_path(sort_column: 'title', sort_direction: 'desc') %>
+          </div>
+        </div>
+      </th>
+
+      <th class="<%= 'sorted-asc' if session[:sort_column] == 'rating' && session[:sort_direction] == 'asc' %>
+                 <%= 'sorted-desc' if session[:sort_column] == 'rating' && session[:sort_direction] == 'desc' %>">
+        <div class="dropdown">
+          <span class="dropbtn">
+            Rating
+            <% if session[:sort_column] == 'rating' %>
+              <% if session[:sort_direction] == 'asc' %>
+                &#9660;
+              <% elsif session[:sort_direction] == 'desc' %>
+                &#9650;
+              <% end %>
+            <% end %>
+          </span>
+          <div class="dropdown-content">
+            <%= link_to 'Rating Asc', movies_path(sort_column: 'rating', sort_direction: 'asc') %>
+            <%= link_to 'Rating Desc', movies_path(sort_column: 'rating', sort_direction: 'desc') %>
+          </div>
+        </div>
+      </th>
+
+      <th class="<%= 'sorted-asc' if session[:sort_column] == 'release_date' && session[:sort_direction] == 'asc' %>
+                 <%= 'sorted-desc' if session[:sort_column] == 'release_date' && session[:sort_direction] == 'desc' %>">
+        <div class="dropdown">
+          <span class="dropbtn">
+            Release Date
+            <% if session[:sort_column] == 'release_date' %>
+              <% if session[:sort_direction] == 'asc' %>
+                &#9660;
+              <% elsif session[:sort_direction] == 'desc' %>
+                &#9650;
+              <% end %>
+            <% end %>
+          </span>
+          <div class="dropdown-content">
+            <%= link_to 'Release Date Asc', movies_path(sort_column: 'release_date', sort_direction: 'asc') %>
+            <%= link_to 'Release Date Desc', movies_path(sort_column: 'release_date', sort_direction: 'desc') %>
+          </div>
+        </div>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movies.each do |movie| %>
+      <tr id="<%= dom_id movie %>">
+        <td class="<%= 'sorted-asc' if session[:sort_column] == 'title' && session[:sort_direction] == 'asc' %>
+                   <%= 'sorted-desc' if session[:sort_column] == 'title' && session[:sort_direction] == 'desc' %>">
+          <%= link_to movie.title, movie %>
+        </td>
+        <td class="<%= 'sorted-asc' if session[:sort_column] == 'rating' && session[:sort_direction] == 'asc' %>
+                   <%= 'sorted-desc' if session[:sort_column] == 'rating' && session[:sort_direction] == 'desc' %>">
+          <%= movie.rating %>
+        </td>
+        <td class="<%= 'sorted-asc' if session[:sort_column] == 'release_date' && session[:sort_direction] == 'asc' %>
+                   <%= 'sorted-desc' if session[:sort_column] == 'release_date' && session[:sort_direction] == 'desc' %>">
+          <%= movie.release_date %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 </div>
 
-<%= link_to "New movie", new_movie_path %>
+<div style="text-align: center; margin-top: 20px;">
+  <%= link_to "New movie", new_movie_path, class: "btn"%>
+  <%= link_to "Reset Sorting", movies_path, class: "btn" %>
+</div>
