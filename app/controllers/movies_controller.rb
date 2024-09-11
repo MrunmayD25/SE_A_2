@@ -4,6 +4,21 @@ class MoviesController < ApplicationController
   # GET /movies or /movies.json
   def index
     @movies = Movie.all
+    if params[:sort_column].present?
+      session[:sort_column] = params[:sort_column]
+      session[:sort_direction] = params[:sort_direction]
+    else
+      session[:sort_column] = nil
+      session[:sort_direction] = nil
+    end
+
+    if session[:sort_column].present? && session[:sort_direction].present?
+      sort_direction = %w[asc desc].include?(session[:sort_direction]) ? session[:sort_direction] : 'asc'
+      @movies = Movie.order(Arel.sql("#{session[:sort_column]} #{sort_direction}"))
+    else
+      @movies = Movie.all
+    end
+    
   end
 
   # GET /movies/1 or /movies/1.json
