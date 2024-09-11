@@ -1,22 +1,25 @@
-<div id="<%= dom_id movie %>">
+
+<div id="<%= dom_id movie %>" class="movie-show">
   <p>
     <strong>Title:</strong>
-    <%= movie.title %>
+    <span><%= movie.title %></span>
   </p>
 
   <p>
     <strong>Rating:</strong>
-    <%= movie.rating %>
+    <span><%= movie.rating %></span>
   </p>
 
   <p>
     <strong>Description:</strong>
-    <%= movie.description %>
+    <span><%= movie.description %></span>
   </p>
 
   <p>
-    <strong>Release date:</strong>
-    <%= movie.release_date %>
+    <strong>Release Date:</strong>
+    <span><%= movie.release_date %></span>
   </p>
-
+  <p style="text-align: center;">
+    <%= link_to "Edit", edit_movie_path(@movie), class: "btn"%>
+  </p>
 </div>

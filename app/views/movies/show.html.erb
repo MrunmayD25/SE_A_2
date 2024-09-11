@@ -1,10 +1,13 @@
-<p style="color: green"><%= notice %></p>
+<p class="message"><%= notice %></p>
 
 <%= render @movie %>
 
-<div>
-  <%= link_to "Edit this movie", edit_movie_path(@movie) %> |
-  <%= link_to "Back to movies", movies_path %>
+<div style="text-align: center; margin-top: 20px;">
 
-  <%= button_to "Destroy this movie", @movie, method: :delete %>
+  <% if session[:sort_column].present? && session[:sort_direction].present? %>
+  <%= link_to "Back to movies", movies_path(sort_column: session[:sort_column], sort_direction: session[:sort_direction]), class: "btn"%>
+  <% else %>
+  <%= link_to "Back to movies", movies_path, class: "btn" %>
+  <% end %>
+  <%= button_to "Destroy this movie", @movie, method: :delete, form: { style: "display: inline;" }, class: "btn"%>
 </div>
